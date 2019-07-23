@@ -21,9 +21,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+    }
+    
     
     
     // MARK: - Action methods
+    @IBAction func openCameraButtonTapped(_ sender: Any) {
+        let customCameraController = CustomVideoCameraViewController(nibName: nil, bundle: nil)
+        present(customCameraController, animated: true, completion: nil)
+    }
     
     @IBAction func runCameraButtonTapped(_ sender: Any) {
         imagePickerController.sourceType = .camera

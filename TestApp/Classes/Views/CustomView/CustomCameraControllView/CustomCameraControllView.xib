@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="bPy-kU-rwT" userLabel="Camera Bottom View" customClass="CustomCameraControllView" customModule="TestCameraApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="114"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JV4-N0-FZa">
+                    <rect key="frame" x="0.0" y="32" width="375" height="82"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6RV-lI-Nsb">
+                            <rect key="frame" x="156" y="9.5" width="63" height="63"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="63" id="tn3-bq-xjl"/>
+                                <constraint firstAttribute="height" constant="63" id="wTU-bG-z71"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="gnr_grayButtonBackground"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="6RV-lI-Nsb" firstAttribute="centerX" secondItem="JV4-N0-FZa" secondAttribute="centerX" id="2Ty-WJ-awn"/>
+                        <constraint firstAttribute="height" constant="82" id="JvG-Dq-67o"/>
+                        <constraint firstItem="6RV-lI-Nsb" firstAttribute="centerY" secondItem="JV4-N0-FZa" secondAttribute="centerY" id="lin-A1-YBP"/>
+                    </constraints>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="aIF-QG-Lac">
+                    <rect key="frame" x="0.0" y="-8" width="375" height="40"/>
+                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="khS-Ht-HBs"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fUW-Et-sb9">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="aIF-QG-Lac" firstAttribute="leading" secondItem="IkG-v2-5aJ" secondAttribute="leading" id="1fR-Fe-8iU"/>
+                <constraint firstItem="JV4-N0-FZa" firstAttribute="leading" secondItem="IkG-v2-5aJ" secondAttribute="leading" id="MN5-Aw-2l8"/>
+                <constraint firstItem="aIF-QG-Lac" firstAttribute="trailing" secondItem="IkG-v2-5aJ" secondAttribute="trailing" id="fjP-Oh-RQH"/>
+                <constraint firstItem="IkG-v2-5aJ" firstAttribute="trailing" secondItem="JV4-N0-FZa" secondAttribute="trailing" id="i2a-kX-KCm"/>
+                <constraint firstItem="JV4-N0-FZa" firstAttribute="top" secondItem="aIF-QG-Lac" secondAttribute="bottom" id="kZN-DU-9Wq"/>
+                <constraint firstAttribute="bottom" secondItem="JV4-N0-FZa" secondAttribute="bottom" id="l4A-hw-mT2"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="IkG-v2-5aJ"/>
+            <connections>
+                <outlet property="bottomView" destination="JV4-N0-FZa" id="KUe-Kk-61g"/>
+                <outlet property="cameraButton" destination="6RV-lI-Nsb" id="vPR-dW-Sup"/>
+                <outlet property="headerCollectionView" destination="aIF-QG-Lac" id="zhe-0k-7I1"/>
+            </connections>
+            <point key="canvasLocation" x="56.799999999999997" y="-7.1964017991004505"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="gnr_grayButtonBackground" width="63" height="63"/>
+    </resources>
+</document>

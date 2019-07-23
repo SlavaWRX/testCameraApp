@@ -12,6 +12,14 @@
 		F938472322E5902F00151500 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F938472122E5902F00151500 /* Main.storyboard */; };
 		F938472522E5903200151500 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F938472422E5903200151500 /* Assets.xcassets */; };
 		F938472822E5903200151500 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F938472622E5903200151500 /* LaunchScreen.storyboard */; };
+		F9FC5B9B22E6C8E600853308 /* CustomVideoCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FC5B9922E6C8E600853308 /* CustomVideoCameraViewController.swift */; };
+		F9FC5B9C22E6C8E600853308 /* CustomVideoCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F9FC5B9A22E6C8E600853308 /* CustomVideoCameraViewController.xib */; };
+		F9FC5BA322E6CC4300853308 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FC5BA222E6CC4300853308 /* CameraView.swift */; };
+		F9FC5BA522E6CFAA00853308 /* CameraMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FC5BA422E6CFAA00853308 /* CameraMan.swift */; };
+		F9FC5BA722E6CFCE00853308 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FC5BA622E6CFCE00853308 /* Configuration.swift */; };
+		F9FC5BAC22E7406A00853308 /* CustomCameraControllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FC5BAB22E7406A00853308 /* CustomCameraControllView.swift */; };
+		F9FC5BAE22E7407800853308 /* CustomCameraControllView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F9FC5BAD22E7407800853308 /* CustomCameraControllView.xib */; };
+		F9FC5BB422E744BF00853308 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FC5BB322E744BF00853308 /* UIView+Additions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +30,14 @@
 		F938472422E5903200151500 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F938472722E5903200151500 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F938472922E5903200151500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F9FC5B9922E6C8E600853308 /* CustomVideoCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoCameraViewController.swift; sourceTree = "<group>"; };
+		F9FC5B9A22E6C8E600853308 /* CustomVideoCameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomVideoCameraViewController.xib; sourceTree = "<group>"; };
+		F9FC5BA222E6CC4300853308 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		F9FC5BA422E6CFAA00853308 /* CameraMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMan.swift; sourceTree = "<group>"; };
+		F9FC5BA622E6CFCE00853308 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		F9FC5BAB22E7406A00853308 /* CustomCameraControllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraControllView.swift; sourceTree = "<group>"; };
+		F9FC5BAD22E7407800853308 /* CustomCameraControllView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCameraControllView.xib; sourceTree = "<group>"; };
+		F9FC5BB322E744BF00853308 /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +70,7 @@
 		F938471C22E5902F00151500 /* TestApp */ = {
 			isa = PBXGroup;
 			children = (
+				F9FC5B9622E6C89E00853308 /* Classes */,
 				F938471D22E5902F00151500 /* AppDelegate.swift */,
 				F938471F22E5902F00151500 /* ViewController.swift */,
 				F938472122E5902F00151500 /* Main.storyboard */,
@@ -62,6 +79,117 @@
 				F938472922E5903200151500 /* Info.plist */,
 			);
 			path = TestApp;
+			sourceTree = "<group>";
+		};
+		F9FC5B9622E6C89E00853308 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BB122E744A000853308 /* Models */,
+				F9FC5BA822E7403C00853308 /* Views */,
+				F9FC5B9E22E6CA1F00853308 /* Externals */,
+				F9FC5B9722E6C8AA00853308 /* ViewControllers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		F9FC5B9722E6C8AA00853308 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5B9822E6C8B900853308 /* CustomVideoCamera */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		F9FC5B9822E6C8B900853308 /* CustomVideoCamera */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5B9922E6C8E600853308 /* CustomVideoCameraViewController.swift */,
+				F9FC5B9A22E6C8E600853308 /* CustomVideoCameraViewController.xib */,
+				F9FC5B9D22E6C99A00853308 /* ViewModels */,
+			);
+			path = CustomVideoCamera;
+			sourceTree = "<group>";
+		};
+		F9FC5B9D22E6C99A00853308 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F9FC5B9E22E6CA1F00853308 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5B9F22E6CC0400853308 /* ImagePicker */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		F9FC5B9F22E6CC0400853308 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BA022E6CC1600853308 /* Source */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		F9FC5BA022E6CC1600853308 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BA122E6CC2500853308 /* CameraView */,
+				F9FC5BA622E6CFCE00853308 /* Configuration.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		F9FC5BA122E6CC2500853308 /* CameraView */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BA422E6CFAA00853308 /* CameraMan.swift */,
+				F9FC5BA222E6CC4300853308 /* CameraView.swift */,
+			);
+			path = CameraView;
+			sourceTree = "<group>";
+		};
+		F9FC5BA822E7403C00853308 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BA922E7404600853308 /* CustomView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F9FC5BA922E7404600853308 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BAA22E7404F00853308 /* CustomCameraControllView */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		F9FC5BAA22E7404F00853308 /* CustomCameraControllView */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BAB22E7406A00853308 /* CustomCameraControllView.swift */,
+				F9FC5BAD22E7407800853308 /* CustomCameraControllView.xib */,
+			);
+			path = CustomCameraControllView;
+			sourceTree = "<group>";
+		};
+		F9FC5BB122E744A000853308 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BB222E744A800853308 /* Extentions */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F9FC5BB222E744A800853308 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				F9FC5BB322E744BF00853308 /* UIView+Additions.swift */,
+			);
+			path = Extentions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,6 +252,8 @@
 			files = (
 				F938472822E5903200151500 /* LaunchScreen.storyboard in Resources */,
 				F938472522E5903200151500 /* Assets.xcassets in Resources */,
+				F9FC5BAE22E7407800853308 /* CustomCameraControllView.xib in Resources */,
+				F9FC5B9C22E6C8E600853308 /* CustomVideoCameraViewController.xib in Resources */,
 				F938472322E5902F00151500 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,8 +265,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9FC5BA722E6CFCE00853308 /* Configuration.swift in Sources */,
 				F938472022E5902F00151500 /* ViewController.swift in Sources */,
 				F938471E22E5902F00151500 /* AppDelegate.swift in Sources */,
+				F9FC5BAC22E7406A00853308 /* CustomCameraControllView.swift in Sources */,
+				F9FC5BB422E744BF00853308 /* UIView+Additions.swift in Sources */,
+				F9FC5BA522E6CFAA00853308 /* CameraMan.swift in Sources */,
+				F9FC5B9B22E6C8E600853308 /* CustomVideoCameraViewController.swift in Sources */,
+				F9FC5BA322E6CC4300853308 /* CameraView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

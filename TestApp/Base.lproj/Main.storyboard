@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,23 +12,23 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TestApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TestCameraApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kYY-mB-50j">
-                                <rect key="frame" x="146.5" y="318.5" width="82" height="30"/>
-                                <state key="normal" title="Run camera"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W2l-6P-N7s">
+                                <rect key="frame" x="141.5" y="318.5" width="92" height="30"/>
+                                <state key="normal" title="Open camera"/>
                                 <connections>
-                                    <action selector="runCameraButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XAk-Q4-VRp"/>
+                                    <action selector="openCameraButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AxP-C2-g3z"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="kYY-mB-50j" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="E3c-To-w22"/>
-                            <constraint firstItem="kYY-mB-50j" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="mNq-hh-qXl"/>
+                            <constraint firstItem="W2l-6P-N7s" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="1dX-dz-P8d"/>
+                            <constraint firstItem="W2l-6P-N7s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Y1Y-Gf-8IS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
