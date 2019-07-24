@@ -13,6 +13,8 @@
             <connections>
                 <outlet property="bottomContainerView" destination="IO8-eV-rKF" id="1Ez-iR-z1q"/>
                 <outlet property="containerView" destination="KMc-Sg-lWm" id="kn3-7W-rvc"/>
+                <outlet property="timerContainerView" destination="CCx-tn-mnq" id="OuY-Bg-jnC"/>
+                <outlet property="timerLabel" destination="RHE-98-54e" id="X2j-lv-Rxz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -32,6 +34,23 @@
                     <rect key="frame" x="0.0" y="20" width="375" height="521"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CCx-tn-mnq">
+                    <rect key="frame" x="0.0" y="509" width="375" height="32"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHE-98-54e">
+                            <rect key="frame" x="166.5" y="6" width="42" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="RHE-98-54e" firstAttribute="centerX" secondItem="CCx-tn-mnq" secondAttribute="centerX" id="2Mt-nl-xUU"/>
+                        <constraint firstItem="RHE-98-54e" firstAttribute="centerY" secondItem="CCx-tn-mnq" secondAttribute="centerY" id="krB-d1-uuk"/>
+                        <constraint firstAttribute="height" constant="32" id="qgb-vC-a5z"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -42,6 +61,9 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="KMc-Sg-lWm" secondAttribute="trailing" id="lRD-SZ-GVO"/>
                 <constraint firstItem="KMc-Sg-lWm" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="lc7-fB-h2J"/>
                 <constraint firstItem="KMc-Sg-lWm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="m1l-aT-7FR"/>
+                <constraint firstAttribute="trailing" secondItem="CCx-tn-mnq" secondAttribute="trailing" id="m8Z-KW-cg8"/>
+                <constraint firstItem="CCx-tn-mnq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="u37-w8-9Df"/>
+                <constraint firstItem="IO8-eV-rKF" firstAttribute="top" secondItem="CCx-tn-mnq" secondAttribute="bottom" id="x2P-dR-paG"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
         </view>

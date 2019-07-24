@@ -8,11 +8,16 @@
 
 import UIKit
 
+protocol CustomCameraControllViewDelegate: class {
+    func customCameraControllViewDidTapRecordButton(_ view: CustomCameraControllView)
+}
+
 class CustomCameraControllView: UIView {
 
-    @IBOutlet weak var headerCollectionView: UICollectionView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var cameraButton: UIButton!
+    
+    weak var delegate: CustomCameraControllViewDelegate?
     
     
     // MARK: - Override methods
@@ -21,5 +26,11 @@ class CustomCameraControllView: UIView {
         super.awakeFromNib()
         
     }
+    
+    
+    // MARK: - Action methods
 
+    @IBAction func recordButtonTapped(_ sender: Any) {
+        delegate?.customCameraControllViewDidTapRecordButton(self)
+    }
 }

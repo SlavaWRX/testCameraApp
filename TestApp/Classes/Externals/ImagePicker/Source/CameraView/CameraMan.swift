@@ -9,10 +9,13 @@
 import Foundation
 import PhotosUI
 
+private let kCameraRecordingTimeKey = "kCameraRecordingTimeKey"
+
 protocol CameraManDelegate: class {
     func cameraManNotAvailable(_ cameraMan: CameraMan)
     func cameraManDidStart(_ cameraMan: CameraMan)
     func cameraManLibraryNotAvailable(_ cameraMan: CameraMan)
+    func cameraManShareVideo(_ url: URL, assetId: String)
 }
 
 class CameraMan: NSObject {
@@ -24,9 +27,18 @@ class CameraMan: NSObject {
     var backCamera: AVCaptureDeviceInput?
     var frontCamera: AVCaptureDeviceInput?
     var stillVideoOutput: AVCaptureMovieFileOutput?
+    var stillCameraCaptureOutput: AVCaptureVideoDataOutput?
     
     var startOnFrontCamera: Bool = false
     private var videoCompletion: ((PHAsset?) -> Void)?
+    
+    private let userDefaults = UserDefaults.standard
+    
+    var recordingTime: Double {
+        get {
+            return 1
+        }
+    }
     
     deinit {
         stop()
@@ -38,28 +50,6 @@ class CameraMan: NSObject {
     func setup(_ startOnFrontCamera: Bool = false) {
         self.startOnFrontCamera = startOnFrontCamera
         checkPermission()
-    }
-    
-    func setupDevices() {
-        // Input
-//        let deviceDiscoverySession = AVCaptureDevice.DiscoverySession.init(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: .video, position: .back)
-        AVCaptureDevice
-            .devices()
-            .filter {
-                return $0.hasMediaType(AVMediaType.video)
-            }.forEach {
-                switch $0.position {
-                case .front:
-                    self.frontCamera = try? AVCaptureDeviceInput(device: $0)
-                case .back:
-                    self.backCamera = try? AVCaptureDeviceInput(device: $0)
-                default:
-                    break
-                }
-        }
-        
-        // Output
-        
     }
     
     func addInput(_ input: AVCaptureDeviceInput) {
@@ -95,6 +85,12 @@ class CameraMan: NSObject {
     }
     
     func requestPermission() {
+        if let audioDevice = AVCaptureDevice.default(for: .audio),
+            let audioInput = try? AVCaptureDeviceInput(device: audioDevice),
+            session.canAddInput(audioInput) {
+            session.addInput(audioInput)
+        }
+        
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { granted in
             DispatchQueue.main.async {
                 if granted {
@@ -109,13 +105,39 @@ class CameraMan: NSObject {
     
     // MARK: - Session
     
+    func camera(with position: AVCaptureDevice.Position) -> AVCaptureDevice? {
+        let captureDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.builtInWideAngleCamera],
+            mediaType: .video,
+            position: .unspecified
+        )
+        
+        for device in captureDeviceDiscoverySession.devices {
+            if device.position == position {
+                return device
+            }
+        }
+        
+        return nil
+    }
+    
     fileprivate func start() {
         // Devices
-        setupDevices()
-        
-        guard let input = (self.startOnFrontCamera) ? frontCamera ?? backCamera : backCamera else {
-                return
+
+        let newCameraPosition: AVCaptureDevice.Position = self.startOnFrontCamera ? .front : .back
+        let newCameraDevice = self.camera(with: newCameraPosition)
+        guard let input = try? AVCaptureDeviceInput(device: newCameraDevice!) else {
+            return
         }
+        
+        stillVideoOutput = AVCaptureMovieFileOutput()
+        
+        stillVideoOutput?.maxRecordedDuration = CMTime(seconds: 0, preferredTimescale: 180)
+        print(stillVideoOutput?.maxRecordedDuration.value)
+        
+        stillCameraCaptureOutput = AVCaptureVideoDataOutput()
+        stillCameraCaptureOutput?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable: kCVPixelFormatType_32BGRA] as? [String : Any]
+        stillCameraCaptureOutput?.setSampleBufferDelegate(self, queue: DispatchQueue.main)
         
         addInput(input)
         
@@ -161,16 +183,13 @@ class CameraMan: NSObject {
         AudioServicesPlaySystemSound(1118)
     }
     
-    func saveVideo(_ url: URL, location: CLLocation?, completion: ((PHAsset?) -> Void)? = nil) {
+    func saveVideo(_ url: URL, completion: ((PHAsset?) -> Void)? = nil) {
         var identifier: String?
         PHPhotoLibrary.shared().performChanges({
             guard let request = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url) else {
                 return
             }
             request.creationDate = Date()
-            if let location = location {
-                request.location = location
-            }
             identifier = request.placeholderForCreatedAsset?.localIdentifier
         }, completionHandler: { (_, _) in
             var asset: PHAsset?
@@ -184,14 +203,36 @@ class CameraMan: NSObject {
             }
         })
     }
+    
+    private func removeFileIfExists(_ filePath: URL) {
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: filePath.absoluteString) {
+            do {
+                try fileManager.removeItem(atPath: filePath.absoluteString)
+            } catch {
+                print(error)
+            }
+        }
+    }
 }
 
 extension CameraMan: AVCaptureFileOutputRecordingDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
+        
+    }
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-
+        saveVideo(outputFileURL,
+                  completion: { [weak self] asset in
+                    print(outputFileURL)
+                    self?.removeFileIfExists(outputFileURL)
+                    guard let asset = asset else {
+                        return
+                    }
+                    self?.delegate?.cameraManShareVideo(outputFileURL, assetId: asset.localIdentifier)
+        })
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
+        print("1")
     }
 }

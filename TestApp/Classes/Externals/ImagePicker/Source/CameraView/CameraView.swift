@@ -14,6 +14,7 @@ protocol CameraViewDelegate: class {
     func videoToLibrary(_ asset: PHAsset?)
     func cameraNotAvailable()
     func libraryNotAvailable()
+    func shareVideo(_ url: URL, assetId: String)
 }
 
 class CameraView: UIViewController, CameraManDelegate {
@@ -105,6 +106,10 @@ class CameraView: UIViewController, CameraManDelegate {
     
     func cameraManDidStart(_ cameraMan: CameraMan) {
         setupPreviewLayer()
+    }
+    
+    func cameraManShareVideo(_ url: URL, assetId: String) {
+        delegate?.shareVideo(url, assetId: assetId)
     }
 
 }

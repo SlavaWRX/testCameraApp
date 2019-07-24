@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F90DCBA522E899F300E6BD4F /* CustomVideoCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90DCBA422E899F300E6BD4F /* CustomVideoCameraViewModel.swift */; };
 		F938471E22E5902F00151500 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938471D22E5902F00151500 /* AppDelegate.swift */; };
 		F938472022E5902F00151500 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938471F22E5902F00151500 /* ViewController.swift */; };
 		F938472322E5902F00151500 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F938472122E5902F00151500 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F90DCBA422E899F300E6BD4F /* CustomVideoCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoCameraViewModel.swift; sourceTree = "<group>"; };
 		F938471A22E5902F00151500 /* TestCameraApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCameraApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F938471D22E5902F00151500 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F938471F22E5902F00151500 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		F9FC5B9D22E6C99A00853308 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				F90DCBA422E899F300E6BD4F /* CustomVideoCameraViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				F9FC5BA522E6CFAA00853308 /* CameraMan.swift in Sources */,
 				F9FC5B9B22E6C8E600853308 /* CustomVideoCameraViewController.swift in Sources */,
 				F9FC5BA322E6CC4300853308 /* CameraView.swift in Sources */,
+				F90DCBA522E899F300E6BD4F /* CustomVideoCameraViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
