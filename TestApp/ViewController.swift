@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     // MARK: - Action methods
     
     @IBAction func openCameraButtonTapped(_ sender: Any) {
-        let customCameraController = CustomVideoCameraViewController(recordTime: 3)
+        let customCameraController = CameraViewController(recordTime: 3, frameRate: .thirty)
         present(customCameraController, animated: true, completion: nil)
     }
 }

@@ -11,6 +11,11 @@ import PhotosUI
 
 private let kCameraRecordingTimeKey = "kCameraRecordingTimeKey"
 
+enum FrameRates: Double {
+    case thirty = 30
+    case sixty = 60
+}
+
 protocol CameraManDelegate: class {
     func cameraManNotAvailable(_ cameraMan: CameraMan)
     func cameraManDidStart(_ cameraMan: CameraMan)
@@ -32,11 +37,15 @@ class CameraMan: NSObject {
     var startOnFrontCamera: Bool = false
     private var videoCompletion: ((PHAsset?) -> Void)?
     
-    private let userDefaults = UserDefaults.standard
+    var recordingTime: Double? {
+        didSet {
+            updateRecordTime()
+        }
+    }
     
-    var recordingTime: Double {
-        get {
-            return 1
+    var frameRate: FrameRates? {
+        didSet {
+            updateFrameRate()
         }
     }
     
@@ -85,12 +94,6 @@ class CameraMan: NSObject {
     }
     
     func requestPermission() {
-        if let audioDevice = AVCaptureDevice.default(for: .audio),
-            let audioInput = try? AVCaptureDeviceInput(device: audioDevice),
-            session.canAddInput(audioInput) {
-            session.addInput(audioInput)
-        }
-        
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { granted in
             DispatchQueue.main.async {
                 if granted {
@@ -104,6 +107,10 @@ class CameraMan: NSObject {
     
     
     // MARK: - Session
+    
+    var currentInput: AVCaptureDeviceInput? {
+        return session.inputs.first as? AVCaptureDeviceInput
+    }
     
     func camera(with position: AVCaptureDevice.Position) -> AVCaptureDevice? {
         let captureDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(
@@ -121,29 +128,56 @@ class CameraMan: NSObject {
         return nil
     }
     
+    private func updateRecordTime() {
+        if let recordTime = recordingTime {
+            stillVideoOutput?.maxRecordedDuration = CMTime(seconds: recordTime, preferredTimescale: 180)
+        } else {
+            stillVideoOutput?.maxRecordedDuration = CMTime.positiveInfinity
+        }
+    }
+    
+    private func updateFrameRate() {
+        let newCameraDevice = self.camera(with: .back)
+        if let frameRate = frameRate {
+            newCameraDevice?.set(frameRate: frameRate.rawValue)
+        } else {
+            newCameraDevice?.set(frameRate: 30)
+        }
+    }
+    
     fileprivate func start() {
         // Devices
-
+        
         let newCameraPosition: AVCaptureDevice.Position = self.startOnFrontCamera ? .front : .back
         let newCameraDevice = self.camera(with: newCameraPosition)
         guard let input = try? AVCaptureDeviceInput(device: newCameraDevice!) else {
             return
         }
         
+        // Inputs
+        
+        addInput(input)
+        
+        // Outputs
+        
         stillVideoOutput = AVCaptureMovieFileOutput()
         
-        stillVideoOutput?.maxRecordedDuration = CMTime(seconds: 0, preferredTimescale: 180)
-        print(stillVideoOutput?.maxRecordedDuration.value)
-        
+        updateRecordTime()
+        updateFrameRate()
+
         stillCameraCaptureOutput = AVCaptureVideoDataOutput()
         stillCameraCaptureOutput?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable: kCVPixelFormatType_32BGRA] as? [String : Any]
         stillCameraCaptureOutput?.setSampleBufferDelegate(self, queue: DispatchQueue.main)
         
-        addInput(input)
-        
         if let videoOutput = stillVideoOutput,
             session.canAddOutput(videoOutput) {
             session.addOutput(videoOutput)
+        }
+        
+        if let audioDevice = AVCaptureDevice.default(for: .audio),
+            let audioInput = try? AVCaptureDeviceInput(device: audioDevice),
+            session.canAddInput(audioInput) {
+            session.addInput(audioInput)
         }
         
         queue.async {
@@ -203,36 +237,35 @@ class CameraMan: NSObject {
             }
         })
     }
-    
-    private func removeFileIfExists(_ filePath: URL) {
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: filePath.absoluteString) {
-            do {
-                try fileManager.removeItem(atPath: filePath.absoluteString)
-            } catch {
-                print(error)
-            }
-        }
-    }
 }
 
 extension CameraMan: AVCaptureFileOutputRecordingDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
-        
-    }
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         saveVideo(outputFileURL,
                   completion: { [weak self] asset in
-                    print(outputFileURL)
-                    self?.removeFileIfExists(outputFileURL)
                     guard let asset = asset else {
                         return
                     }
                     self?.delegate?.cameraManShareVideo(outputFileURL, assetId: asset.localIdentifier)
         })
     }
-    
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        print("1")
+}
+
+extension AVCaptureDevice {
+    func set(frameRate: Double) {
+        guard let range = activeFormat.videoSupportedFrameRateRanges.first,
+            range.minFrameRate...range.maxFrameRate ~= frameRate
+            else {
+                print("Requested FPS is not supported by the device's activeFormat !")
+                return
+        }
+        
+        do { try lockForConfiguration()
+            activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+            activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+            unlockForConfiguration()
+        } catch {
+            print("LockForConfiguration failed with error: \(error.localizedDescription)")
+        }
     }
 }

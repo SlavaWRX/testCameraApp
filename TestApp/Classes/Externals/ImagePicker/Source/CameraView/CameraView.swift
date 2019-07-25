@@ -2,23 +2,19 @@
 //  CameraView.swift
 //  TestCameraApp
 //
-//  Created by Viacheslav Goroshniuk on 7/23/19.
+//  Created by Viacheslav Goroshniuk on 7/25/19.
 //  Copyright © 2019 Viacheslav Goroshniuk. All rights reserved.
 //
 
 import UIKit
-import PhotosUI
-import AVFoundation
+import Photos
 
 protocol CameraViewDelegate: class {
-    func videoToLibrary(_ asset: PHAsset?)
-    func cameraNotAvailable()
-    func libraryNotAvailable()
     func shareVideo(_ url: URL, assetId: String)
 }
 
-class CameraView: UIViewController, CameraManDelegate {
-
+class CameraView: UIView, CameraManDelegate {
+    
     var configuration = Configuration()
     
     let cameraMan = CameraMan()
@@ -31,29 +27,19 @@ class CameraView: UIViewController, CameraManDelegate {
     }
     
     
+    // MARK: - Override methods
     
-    public init(configuration: Configuration? = nil) {
-        if let configuration = configuration {
-            self.configuration = configuration
-        }
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = configuration.mainColor
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
         cameraMan.delegate = self
         cameraMan.setup(self.startOnFrontCamera)
+        backgroundColor = configuration.mainColor
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
         
         previewLayer?.connection?.videoOrientation = .portrait
     }
@@ -65,9 +51,9 @@ class CameraView: UIViewController, CameraManDelegate {
         layer.autoreverses = true
         layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         
-        view.layer.insertSublayer(layer, at: 0)
-        layer.frame = view.layer.frame
-        view.clipsToBounds = true
+        self.layer.insertSublayer(layer, at: 0)
+        layer.frame = self.layer.frame
+        self.clipsToBounds = true
         
         previewLayer = layer
     }
@@ -80,8 +66,7 @@ class CameraView: UIViewController, CameraManDelegate {
     }
     
     func stopRecordVideo(_ completion: @escaping () -> Void) {
-        cameraMan.stopVideoRecordingAndSaveToLibrary { [weak self] asset in
-            self?.delegate?.videoToLibrary(asset)
+        cameraMan.stopVideoRecordingAndSaveToLibrary { _ in
             completion()
         }
     }
@@ -90,18 +75,15 @@ class CameraView: UIViewController, CameraManDelegate {
     // MARK: - Private helpers
     
     func showNoCamera(_ show: Bool) {
-        
     }
     
     
     // CameraManDelegate
     func cameraManNotAvailable(_ cameraMan: CameraMan) {
         showNoCamera(true)
-        delegate?.cameraNotAvailable()
     }
     
     func cameraManLibraryNotAvailable(_ cameraMan: CameraMan) {
-        delegate?.libraryNotAvailable()
     }
     
     func cameraManDidStart(_ cameraMan: CameraMan) {
@@ -111,5 +93,5 @@ class CameraView: UIViewController, CameraManDelegate {
     func cameraManShareVideo(_ url: URL, assetId: String) {
         delegate?.shareVideo(url, assetId: assetId)
     }
-
 }
+

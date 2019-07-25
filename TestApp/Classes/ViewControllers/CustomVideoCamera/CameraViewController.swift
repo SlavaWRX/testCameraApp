@@ -9,29 +9,28 @@
 import UIKit
 import Photos
 
-class CustomVideoCameraViewController: UIViewController {
+class CameraViewController: UIViewController {
     
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var bottomContainerView: UIView!
-    @IBOutlet weak var timerContainerView: UIView!
+    @IBOutlet weak var cameraView: CameraView!
     @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var cameraButton: UIButton!
     
-    private let cameraView = CameraView(configuration: nil)
-    private var cameraMan = CameraMan()
     private var startRecordTime: TimeInterval = 0.0
-    private var customCameraControll = CustomCameraControllView.fromNib()
+    private var frameRateTypes: FrameRates?
     
     private var minutes = 0
     private var seconds = 0
     private weak var timer: Timer?
     
-    var recordingTime = 0.0
+    var recordingTime: Double?
+    var frameRate: Double?
     
     // MARK: - Intance intialization
     
-    convenience init(recordTime: Double) {
+    convenience init(recordTime: Double, frameRate: FrameRates) {
         self.init(nibName: nil, bundle: nil)
         self.recordingTime = recordTime
+        self.frameRateTypes = frameRate
     }
     
     
@@ -41,30 +40,27 @@ class CustomVideoCameraViewController: UIViewController {
         super.viewDidLoad()
 
         configureUI()
-        saveRecordingTime(recordingTime)
+        cameraView.cameraMan.recordingTime = recordingTime
+        cameraView.cameraMan.frameRate = frameRateTypes
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        cameraView.view.frame = containerView.bounds
-        customCameraControll.frame = bottomContainerView.bounds
+    
+    // MARK: - Action methods
+    
+    @IBAction func cameraButtonTapped(_ sender: Any) {
+        userDidTapRecordButton()
     }
     
+    @IBAction func closeButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     
     // MARK: - Private methods
     
-    private func saveRecordingTime(_ time: Double) {
-        
-    }
-    
     private func configureUI() {
         cameraView.delegate = self
-        customCameraControll.delegate = self
-        containerView.addSubview(cameraView.view)
-        bottomContainerView.addSubview(customCameraControll)
-        timerContainerView.backgroundColor = UIColor.black
         timerLabel.text = String(format: "%02d:%02d", minutes, seconds)
+        timerLabel.textColor = UIColor.white
     }
     
     private func timerTick(){
@@ -73,6 +69,12 @@ class CustomVideoCameraViewController: UIViewController {
         if seconds == 60{
             seconds = 0
             minutes += 1
+        }
+        
+        if Double(seconds) == recordingTime {
+            stopTimer()
+            cameraView.stopRecordVideo {
+            }
         }
         
         let timeNow = String(format: "%02d:%02d", minutes, seconds)
@@ -84,6 +86,7 @@ class CustomVideoCameraViewController: UIViewController {
     }
     
     private func startRecordingTime() {
+        timerLabel.isHidden = false
         let timeNow = String(format: "%02d:%02d", minutes, seconds)
         timerLabel.text = timeNow
         
@@ -91,6 +94,7 @@ class CustomVideoCameraViewController: UIViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             self?.timerTick()
         }
+        
     }
     
     private func userDidTapRecordButton() {
@@ -127,27 +131,9 @@ class CustomVideoCameraViewController: UIViewController {
 
 }
 
-extension CustomVideoCameraViewController: CameraViewDelegate {
+extension CameraViewController: CameraViewDelegate {
     func shareVideo(_ url: URL, assetId: String) {
         shareVideo([assetId], shareUrl: url)
-    }
-    
-    func videoToLibrary(_ asset: PHAsset?) {
-
-    }
-    
-    func cameraNotAvailable() {
-        
-    }
-    
-    func libraryNotAvailable() {
-        
-    }
-}
-
-extension CustomVideoCameraViewController: CustomCameraControllViewDelegate {
-    func customCameraControllViewDidTapRecordButton(_ view: CustomCameraControllView) {
-        userDidTapRecordButton()
     }
 }
 
