@@ -32,7 +32,7 @@ class CameraView: UIView, CameraManDelegate {
         
         cameraMan.delegate = self
         cameraMan.setup(self.startOnFrontCamera)
-        backgroundColor = configuration.mainColor
+        backgroundColor = UIColor.black
     }
     
     override func layoutSubviews() {
@@ -45,7 +45,7 @@ class CameraView: UIView, CameraManDelegate {
     func setupPreviewLayer() {
         let layer = AVCaptureVideoPreviewLayer(session: cameraMan.session)
         
-        layer.backgroundColor = configuration.mainColor.cgColor
+        layer.backgroundColor = UIColor.black.cgColor
         layer.autoreverses = true
         layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         
