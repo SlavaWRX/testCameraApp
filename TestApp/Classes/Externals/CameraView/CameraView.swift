@@ -15,8 +15,6 @@ protocol CameraViewDelegate: class {
 
 class CameraView: UIView, CameraManDelegate {
     
-    var configuration = Configuration()
-    
     let cameraMan = CameraMan()
     
     var previewLayer: AVCaptureVideoPreviewLayer?
